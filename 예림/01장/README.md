@@ -161,3 +161,42 @@ AWS는 `Well-Architected 프레임워크`를 제공한다.
     - ‘운영 우수성’, ‘보안’, ‘안정성’, ‘성능 효율성’, ‘비용 최적화’, ‘지속 가능성’
 
 > AWS 홈페이지에서 확인할 수 있으며, 고도화된 시스템을 만들 때 많은 도움이 되는 내용을 담고 있다.
+
+## 📌 AWS 도입 사례
+
+### 게임 업게 사례
+
+- 접속 장애 장애 발생 시 일시적으로 컴퓨팅 자원을 늘리고 원래 사앹로 돌아오면 임시로 늘린 자원 반환
+- 또는 자원 부족이라는 개념이 없는 서버리스 개념 사용
+- ex) 닌텐도xDeNA, 스퀘어 에닉스
+
+### 헬스케어 업계 사례
+
+- 빅데이터를 활용하는 경우가 많음
+- 생체 정보와 같은 민감한 개인 정보나 신약 개발 데이터와 같은 기밀 정보를 주로 다룸.
+- 고성능 CPU와 GPU 탑재한 컴퓨팅 서비스와 스토리지 서비스 제공
+- Amazon VPC나 AWS WAF 등을 잉요해 원하는 수준의 보안 시스템 구축 가능
+- ex) 에자이 주식회사, 시스맥스 주식회사
+
+### 제조 업계 사례
+
+- 온프레미스 시스템에서 AWS로 마이그레이션
+- IoT를 활용한 새로운 서비스 구축
+- AI와 데이터 분석 등
+- ex) 토카이리켄 주식회사, 야마하 발동기 주식회사
+
+### 금융 업계 사례
+
+- PCI-DSS와 같은 최신 보안 표준의 대응도 가능
+- 신속하게 고객요구에 대응 가능
+- 확장할 수 있는 시스템을 구축하기 쉽고 신뢰성 높은 시스템 쉽게 구현 가능
+- ex) PayPay 주식회사, 미쓰이 스미토모 해상화재보험 주식회사
+
+### [부록] AWS 학습 방법
+
+1. [AWS 시작하기](https://aws.amazon.com/ko/getting-started/)
+2. [AWS 핸즈온](https://aws.amazon.com/ko/getting-started/hands-on/?getting-started-all.sort-by=item.additionalFields.sortOrder&getting-started-all.sort-order=asc&awsf.getting-started-category=*all&awsf.getting-started-level=*all&awsf.getting-started-content-type=*all) 
+    1. 실습 형태의 무료 동영상 세미나 콘텐츠
+3. [AWS Skill Builder](https://explore.skillbuilder.aws/learn)(트레이닝 포털 사이트)
+    1. AWS 공식 트레이닝 포털 사이트
+4. [인증 시험](https://aws.amazon.com/ko/certification/certification-prep/)
