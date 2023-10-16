@@ -85,3 +85,39 @@
     - 스냅숏은 EBS 볼륨으로 복구해 EC2에 다시 연결해 사용 가능
         - 스냅숏과 몇가지 설정 정보를 조합하여 사용자 전용 AMI 를 생성할 수 있음
         - *Amazon Machine Image(AMI) :* 소프트웨어 구성이 기재된 템플릿 (예: 운영 체제, 애플리케이션 서버, 애플리케이션) AMI에서 *인스턴스*를 바로 시작할 수 있음
+     
+### S3 와 EBS 외 유용한 스토리지 서비스
+
+- **EBS** : 매우 빠르지만, `하나의 EC2 인스턴스`에만 연결 가능 / 블록 스토리지
+- **S3** : 많은 클라이언트가 동시에 사용할 수 있지만, `HTTPS 를 통한 API`를 이용하므로 전송 속도가 그닥 빠르지 않음 / 객체 스토리지
+- **EFS (Amazon Elastic File System)** : `비교적 고속으로` 데이터 전송할 수 있는 `**NFS`** (Network File System) 프로토콜을 이용해 `여러 EC2 인스턴스`가 함께 이용할 수 있는 스토리지 / 파일 스토리지
+- Amazon FSx : 파일 서버를 구축하기 위한 서비스로 / 파일 스토리지
+    - 파일 공유 프로토콜인 `**SMB`** (Server Message Block) 을 이용하는 **Amazon FSx for Windows File Server**
+        - SMB 는 윈도우 뿐만 아니라 리눅스 및 맥 OS 도 지원하므로, 다른 OS 에서도 공유 파일 서버 이용하고 싶은 경우 사용**Amazon FSx for Windows File Server** 선택 가능
+    - 대규모 클러스터 컴퓨팅, 슈퍼컴퓨터 등에서 사용되는 Lustre 라는 고성능 파일 시스템을 이용하는 **Amazon FSx for Lustre**
+- **AWS Storage Gateway** : 온프레미스에 서버 기기를 설치해서 온프레미스 기기와 AWS 의 S3, FSx, EBS를 직접 연결하는 서비스
+    - Storage Gateway 는 NFS 나 SMB 로 연결하는 스토리지처럼 처리되므로, 직접 AWS 서비스와 데이터를 교환하는 것보다 빠름
+
+### AWS Transfer Family
+
+- S3, EFS, HTTP, NFS 가 아닌 SFTP (Secure File Transfer Protocol), FTPS (File Transfer Protocol over SSL)M, FTP (File Transfer Protocol) 과 같은 `FTP 기반 프로토콜` 로 통신하기 위한 서버를 구축하는 서비스
+
+### AWS Backup
+
+- AWS 의 EBS, EFS, FSx 와 같은 스토리지, RDS 나 DynamoDB 와 같은 데이터베이스의 데이터를 백업하는 서비스
+- 백업 규칙 설정 시, 백업이 자동 실시
+- 백업은 S3 에 저장되므로, 가용성/내구성 매우 높음
+
+### AWS DataSync
+
+- 온프레미스와 AWS, 또는 AWS 스토리지 서비스 간 데이터 전송을 위한 서비스
+- 온프레미스 서버에 DataSync 에이전트 설치해서 S3, EFS, FSx 와 같은 스토리지 서비스와 간단히 데이터 주고 받을 수 있음
+- 그럼 AWS Storage Gateway 랑 차이점은 뭘까
+    - DataSync 는 주로 `데이터 이동` 에 중점, Storage Gateway 는 `하이브리드 스토리지 아키텍처 및 로컬 스토리지와의 연결` 에 중점
+
+### AWS Snow Family
+
+- 물리 스토리지를 AWS 에서 빌려 그곳에 데이터를 저장하고, AWS 로 반환하면 해당 데이터를 직접 AWS 내의 스토리지로 옮겨주는 서비스
+    - 데이터가 들어있는 Snow 디바이스 (물리 스토리지) 를 AWS 에 반송하면, 안의 데이터를 S3 에 저장
+    - AWS 에서 전송된 Snow 디바이스 (물리 스토리지) 로 데이터 전송
+- 대량의 데이터 전송을 최대한 빠르게 할 수 있음
