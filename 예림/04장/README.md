@@ -156,3 +156,62 @@ s3://test-bucket/folder/object.txt
 
 - 용량을 확보한 순간부터 계속 요금이 발생
 - EC2 중지하고 있어도 요금 계속 발생
+
+## 📌 데이터 공유, 백업 및 전송을 위한 서비스
+
+S3와 EBS 외 유용한 서비스를 알아보자.
+
+### Amazon Elastic File System
+
+- EBS와 S3의 한계
+    - EBS : 빠르지만 하나의 EC2 인스턴스에만 연결 가능
+    - S3 : HTTPS를 통한 API를 이용하므로 전송 속도가 그닥 빠르지 않음.
+- 대안 : `Amazon Elastic File System(EFS)`
+    - 비교적 고속으로 데이터를 전송할 수 있는 NFS(Network File System)라는 프로토콜을 이용해 여러 EC2 인스턴스가 함께 이용할 수 있는 이용할 수 있는 스토리지
+    - 일반적인 NFS 프로토콜을 사용하기 때문에 ACL 설정만 잘돼 있다면 온프레미스 서버나 로컬 PC에서도 마운트해서 사용 가능
+
+### Amazon FSx
+
+- `FSx` : 파일 서버를 구축하기 위한 서비스
+- 두 종류가 있다.
+    - `Amazon FSx for Windows File Server` : 주로 윈도우에서 사용되는 파일 공유 프로토콜인 `SMB(Server Message Block)`를 이용하는 와 대규모 클러스터 컴퓨팅
+    - `Amazon FSx for Lustre`  : 슈퍼 컴퓨터 등에서 사용되는 `Lustre` 라는 파일 시스템을 이용함.
+
+> SMB는 윈도우 뿐만 아니라 리눅스 및 맥 OS에도 지원하무로 다른 OS에서도 공유 파일 서버를 이용하고 싶다면 `Amazon FSx for Windows File Server`를 선택지로 할 수 있다.
+> 
+
+> EBS는 블록 스토리지, EFS, SFX는 파일 스토리지, S3는 객체 스토리지라고 불리며, 데이터 보존 방식이 다르지만 파일을 저장하고 공유한다는 개념은 같다.
+> 
+- ‘보관되는 데이터양’을 바탕으로 비용을 비교하면 S3가 압도적으로 저렴하다
+    - 평소 사용하지 않는 백업이나 거대한 데이터는 S3에 보존 추천
+- `AWS Storage Gateway`  : 온프레미스에 서버 기기 혹은 가상 서버에 설치해서 온프레미스 기기와 AWS의 S3, FSx, EBS를 직접 연결하는 서비스
+- 온프레미스 기기에서 `Storage Gateway`는 NFS나 SMB로 연결하는 스토리지처럼 처리되므로 직접 AWS 서비스와 데이터를 교환하는 것보다 빠름.
+
+### AWS Transfer Family
+
+- `AWS Transfer Family` : S3, EFS, HTTP, NFS가 아닌 SFTP, FTPS, FTP와 같은 **FTP 기반 프로토콜**로 통신하기 위한 서버를 구축하는 서비스
+- 예전 시스템은 FTP를 사용하는 경우가 많으므로 이러한 시스템을 AWS로 마이그레이션할 때 응용 프로그램의 FTP를 사용하는 부분은 그대로 두고 전송 대상을 가용성 높은 S3 또는 EFS로 변경 가능
+
+### AWS Backup
+
+- `AWS Backup` : EBS, EFS, FSx와 같은 스토리지, RDS나 DynamoDB와 같은 데이터베이스의 데이터를 백업하는 서비스
+- 백업은 S3에 저장 → 가용성 및 내구성 높음
+
+### AWS DataSync
+
+- `AWS DataSync` : 온프레미스와 AWS 혹은 AWS 스토리지 서비스 간 데이터 전송을 위한 서비스
+- 온프레미스 서버에 DataSync라는 에이전트 설치해 S3, EFS, FSx와 같은 스토리지 서비스와 간단히 데이터 주고받기 가능
+- 전송 속도는 최대 10Gbps이며 통신 암호화 기능, 전송한 데이터의 무결성 체크 기능도 있어 안전하고 빠르게 데이터 전송 가능
+
+### AWS Snow Family
+
+- 온프레미스 데이터를 AWS로 전송하는 경우 소량의 데이터라면 문제 없지만 테라바이트(TB) 단위의 데이터를 전송할 때에는 시간이 오래 걸림.
+- 이러한 데이터 전송을 최대한 빨리하기 위한 서비스가 `AWS Snow Family`
+- `AWS Snow Family` : 물리 스토리지를 AWS에서 빌려 거기에 데이터 저장하고 AWS로 반환하면 해당 데이터를 직접 AWS 내의 스토리지에 옮겨주는 서비스
+- 3가지 용량의 스토리지 준비됨
+    - Snowcore(8TB)
+    - Snowball(8OTB)
+    - Snowmobile(100PB)
+- 최대 용량인 `AWS Snowmobile` : 총 14m 길이의 트레일러에 적재된 대량의 스토리지에 100PB의 데이터 저장해 수송 가능
+    - 보안도 철저히 제공
+- 데이터가 들어있는 Snow 디바이스를 AWS에 반송하면 안의 데이터를 S3에 저장
