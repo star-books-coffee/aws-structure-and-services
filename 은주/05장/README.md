@@ -51,3 +51,25 @@
     - DNS (Domain Name System) 이 우리 대신, **도메인 이름에 연결된 IP 주소를 찾아주기** 때문 <br>
     → 이러한 DNS 의 기능을 `이름 해석` 이라고 함
     ![Untitled](https://file.notion.so/f/f/3db2c1d3-d28f-483a-adc8-ee8abc696878/dbc7d0ad-7a38-43ae-b4f0-ddad93024f6c/Untitled.png?id=f72916a6-eff6-4265-b58d-28114ecd5f6c&table=block&spaceId=3db2c1d3-d28f-483a-adc8-ee8abc696878&expirationTimestamp=1697644800000&signature=OC1-_D29qVNR4lpytDh21xej836N_1LWYAxCV2ZKaco&downloadName=Untitled.png)
+
+### 가상 네트워크 Amazon VPC
+
+- **Amazon Virtual Private Cloud (VPC)** : AWS 에서 생성할 수 있는 프라이빗 가상 네트워크 공간
+    - 인터넷에 공개하는 **Public VPC** 구축 가능
+    - VPN (Virtual Private Network - 가상 사설 네트워크) 등을 이용해 접속하는 **Private VPC** 구축 가능
+- VPC 를 만들 때 `CIDR 블록 (IP 주소 범위) 를 지정`하고, **지정한 CIDR 블록 네트워크를 확보**
+    - 10.0.0.0/28 → 호스트 주소 2^(32-28) = 2^4= 16개의 IP 주소 사용 가능
+    - 호스트 주소는 여유롭게 많이 확보해두는 것이 좋음
+    - 호스트 : 네트워크 내에서 접속할 수 있는 서버
+- VPC 는 일반적으로 `프라이빗 IP 주소`를 사용 (AWS 의 권고 사항)
+    - 임의의 퍼블릭 IP 범위에서 CIDR 블록 지정 가능하지만, 외부 퍼블릭 IP 와 겹치면 통신 불가하므로 기본적으로 프라이빗 IP 주소 공간을 지정하는 것이 좋음
+    - 온프레미스나 다른 VPC 등 외부 네트워크와의 접속을 검토한다면, **접속할 네트워크와 VPC 의 CIDR 블록이 중복되지 않게 주의 필요**
+
+### VPC 및 서브넷 생성
+
+- VPC 이름 / CIDR 블록 / IPv6 설정 / 테넌시 (전용 하드웨어 사용 여부)
+    - 테넌시 : 라이선스 및 보안 요구 사항으로, 하드웨어 독점하려는 경우에만 독점 옵션 지정
+- VPC 만으로는 EC2 같은 자원을 네트워크에 만들 수 없으므로, VPC 안에 더 작은 네트워크 단위인 `서브넷` 을 만들어야 함
+    - VPC 내에 서브넷 만들고, 서브넷에 EC2 등을 생성해야 함
+    - 서브넷은 하나의 AZ 에 속해야 하며, 여러 AZ에 걸쳐 있을 수 없음
+    - 하나의 AZ 에 여러 서브넷은 가능
