@@ -147,3 +147,70 @@
     - 좀 더 복잡한 공격에 대해 방어하기 위해서는 서드 파티 도구를 사용해야 함
         
     <img src="https://miro.medium.com/v2/resize:fit:1400/1*sHIYOB4vHsKdtsWlelmlMg.png" width=600>
+
+
+## 📌 시스템 보안을 강화하는 6가지 서비스
+
+### 클라우드에 요구되는 보안
+
+- EC2 인스턴스는 직접 보안 설정을 할 수 있지만 EC2가 실행되는 컨테이너나 데이터 센터의 물리적 보안에 대해서는 알 수 없다
+
+### AWS Network Firewell
+
+- AWS에 구축하는 시스템은 기본적으로 VPC 안에서 동작
+- `AWS Network Firewall(이후 Network Firewall)` : VPC를 통한 통신에 대한 방화벽 역할을 하는 서비스
+- 일반적인 방화벽과 같이 IP 주소와 포트번호를 지정해 통신을 허가하거나 거부하는 것 외에도 도메인을 지정하거나 Suricata라는 오픈소스 IPS 호환 규칙을 사용하는 등 유연하게 ㅊ통신 제어 가능
+- 대상 규칙을 상태 비보존/상태 보존 관계 없이 적용 가능
+    - 보안 그룹 : 상태 보존으로 동작
+    - 네트워크 ACL : 상태비보존으로 동작
+- 통신을 허가하지만 알림을 발생시키는 형태로도 설정할 수 있음
+- 관리형 서비스 & 자동으로 처리량을 확장하기 때문에 가용성 ⬆️
+
+### Amazon Inspector
+
+- EC2는 이용자에게 구성의 자유도가 높은 환경이므로 인스턴스 수가 많아지면 취약점 관리도 그만큼 힘듦
+- `Amazon Inspector` : 이런 취약점을 관리하기 위한 서비스
+- 평가를 위한 규칙을 기본으로 제공하며 평가 일정을 예약 → 지정한 일시에 자동으로 취약점 평가 수행 가능
+    - 버전 취약점 확인하거나 AWS 모범 사례를 만족하는지 등을 확인해 보고서 생성
+- 소프트웨어의 버전 취약점과 같이 특정 처리를 자동으로 수행하는 AWS Systems Manager와 결합하면 보안 패치를 자동으로 수행 가능 → 운영 비용 절감
+
+### Amazon Shield
+
+- `AWS Shield` : 별도의 설정 없이 자동으로 적용되는 서비스로, `DDos 공격`으로부터 보호하는 서비스
+- AWS 서비스 중 트래픽이나 서비스 이용량에 따라 요금이 발생하는 서비스에 DDos 공격을 받으면 막대한 이용 요금을 지불해야 할 수도 있음
+- 최근에는 경제적 손실을 목적으로 DDos 공격을 하는 경우도 있는데, EDos 공격으로 구분하기도 함
+- 2가지 플랜이 있음
+    - Standard : 무료 / 자동 활성화
+    - Advanced : AWS DDos 전문 팀의 지원을 받을 수 있음
+        - 상당히 비싸서 대규모 서비스가 아니라면 거의 사용 X
+
+### AWS Security Hub
+
+- `AWS Security Hub` : 전체 AWS 계정에 대한 보안 모범 사례를 확인하는 서비스
+- PIC DSS라는 신용카드 정보 보안의 국제 표준 기준과 CIS라는 단체가 정한 AWS 계정의 기본적인 보안 모범 사례인 CIS AWS Foundation Benchmark라는 기준을 준수하는지 확인 가능
+
+### AWS Cognito
+
+- AWS Cognito : 웹 응용 프로그램이나 모바일 앱의 사용자 인증 및 권한 부여를 위한 서비스
+- AWS에 구축한 시스템을 이용하는 ‘최종 사용자’를 위한 것으로 IAM과는 다름
+- ID와 비밀번호 외에도 SMS나 OTP를 이용한 MFC 인증(다중 인증) 가능
+- 전화번호나 메일 주소의 유효성 확인, 분실 시 비밀번호 변경 기능 제공
+- 권한 부여 기능 : 인증된 사용자에게 권한을 부여하는 기능
+    - 인증된 사용자에게 IAM 역할 권한을 사용하게 할 수도 있음
+- 권한을 부여할 때 기본 인증 방법 외에도 페이스북, 트위터, 구글이 제공하는 인증 서비스 사용 가능
+
+!https://digitalcloud.training/wp-content/uploads/2022/01/amazon-cognito-authentication-and-authorization.jpeg
+
+### AWS Directory Service
+
+- 어느정도 규모가 있는 조직이라면 사용자 관리를 위해 `Microsoft의 Active Directory`를 사용하는 경우가 많음
+- Active Directory에 조직 구성원 등록 → 사내 시스템 인증에 사용하거나 PC, 프린터 인증에 사용하는 등 내부의 정보 자산 이용을 위해 활용 가능
+- AWS Directory Service : AWS가 제공하는 Active Directory 서비스
+- 종류 3가지
+    - AWS Managed Microsoft AD
+    - Simple AD
+    - AD Connector
+- AWS Directory를 구축해 구성원 관리를 하거나 온프레미스에 구축한 Active Directory를 AWS로 마이그레이션 가능
+- Active Directory의 구성원을 IAM 역할과 연결할 수 있음
+    
+    ⇒ IAM에 사용자 추가를 하지 않고 Active Directory에 구성원을 추가해 AWS 서비스를 사용하게끔 설정 가능
