@@ -1,2 +1,15 @@
-# aws-structure-and-services
-아마존 웹 서비스는 아마존닷컴의 클라우드 컴퓨팅 사업부이다. 아마존 웹 서비스는 다른 웹 사이트나 클라이언트측 응용 프로그램에 대해 온라인 서비스를 제공하고 있다 ...더보기
+# 그림과 작동 원리로 쉽게 이해하는 AWS 구조와 서비스
+<img src="https://image.yes24.com/goods/117291443/XL" width="300">
+
+## 📚 스터디 규칙
+
+1. 매주 월요일에 시작한다.
+2. 하루에 한 줄이라도 읽기
+    - 패널티 : **`1000원`**
+3. **`매일`** 깃허브에 자신이 읽은 부분 자신의 언어로 정리해서 올리기
+    - 단, 한 챕터를 읽지 않았을 시, **`5000원`**
+
+## ✨ 멤버
+| <a href="https://github.com/song-eunju">송은주 | <a href="https://github.com/yel-m"> 정예림 |
+| --- | --- |
+| <img src="https://github.com/Song-EunJu.png" width="100"> | <img src="https://github.com/yel-m.png" width="100"> |
